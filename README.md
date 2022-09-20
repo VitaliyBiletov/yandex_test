@@ -1,2 +1,2 @@
 # yandex_test
-Используется фреймворк splinter
+Используется pytest, splinter, loguru
