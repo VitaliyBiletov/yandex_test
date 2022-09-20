@@ -1,3 +1,4 @@
+from loguru import logger
 from .base_page import BasePage
 
 
@@ -18,7 +19,7 @@ class YandexImagesPage(BasePage):
     def is_present_image_link(self):
         """Проверяет наличие ссылки на страницу с картинками"""
         assert self.browser.is_element_present_by_css(".service_name_images .link"), \
-            "Сслыка на страницу картинки отсутстует"
+            logger.error("Сслыка на страницу картинки отсутстует")
 
     def click_to_images_link(self):
         """Получает элемент ссылки и кликает по нему"""
@@ -42,7 +43,8 @@ class YandexImagesPage(BasePage):
         """
         self.browser.windows.current = self.browser.windows[1]
         input_search = self.browser.find_by_css(".input__box .input__control")
-        assert input_search.value == self.category_name, "Отображается неверное название категории"
+        assert input_search.value == self.category_name, \
+            logger.error("Отображается неверное название категории")
 
     def open_first_image(self):
         """Получает первую картинку и кликает по ней"""
@@ -55,7 +57,8 @@ class YandexImagesPage(BasePage):
         Запоминает url прервой картинки в атрибуте first_image_url
         """
         self.first_image_url = self.browser.find_by_css(".MMImage-Origin")["src"]
-        assert self.browser.is_element_present_by_css(".MMImage-Preview"), "Картинка не открылась"
+        assert self.browser.is_element_present_by_css(".MMImage-Preview"), \
+            logger.error("Ошибка открытия картинки")
 
     def click_to_next_image(self):
         """
@@ -69,7 +72,8 @@ class YandexImagesPage(BasePage):
 
     def is_the_picture_changed(self):
         """Проверяет что картинка сменилась"""
-        assert self.first_image_url != self.current_image_url, "Картинка не сменилась"
+        assert self.first_image_url != self.current_image_url, \
+            logger.error("Картинка не сменилась")
 
     def click_to_prev_image(self):
         """
@@ -81,8 +85,7 @@ class YandexImagesPage(BasePage):
         self.current_image_url = self.browser.find_by_css(".MMImage-Origin")["src"]
 
     def is_the_previous_picture(self):
-        """
-        Сраванивает url первой картинки и текущей
-        """
-        assert self.first_image_url == self.current_image_url, "Первая картинка не совпадает с исходной"
+        """Сраванивает url первой картинки и текущей"""
+        assert self.first_image_url == self.current_image_url, \
+            logger.error("Первая картинка не совпадает с исходной")
 

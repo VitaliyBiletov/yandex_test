@@ -1,3 +1,4 @@
+from loguru import logger
 from selenium.webdriver import Keys
 from .base_page import BasePage
 
@@ -13,9 +14,10 @@ class YandexSearchPage(BasePage):
 
     def should_be_input_field(self):
         """Проверяет наличие поля поиска"""
-        assert self.browser.is_element_present_by_css("input.input__control"), "Отстутствует поле поиска"
+        assert self.browser.is_element_present_by_css("input.input__control"), \
+            logger.error("Отстутствует поле поиска")
 
-    def text_in_input(self):
+    def entering_text_in_input(self):
         """
         Получает поле поиска
         Вводит в него слово 'Тензор'
@@ -29,13 +31,15 @@ class YandexSearchPage(BasePage):
 
     def is_present_suggest(self):
         """Проверяет наличие таблицы с подсказками"""
-        assert self.browser.is_element_present_by_css(".mini-suggest__popup"), "Отстутствует таблица с подсказками"
+        assert self.browser.is_element_present_by_css(".mini-suggest__popup"), \
+            logger.error("Отстутствует таблица с подсказками")
 
     def is_present_results_after_pressing_enter(self):
         """Проверяет наличие результатов поиска"""
-        assert self.browser.is_element_present_by_css("ul.serp-list"), "Отстутсвует таблица с результатами поиска"
+        assert self.browser.is_element_present_by_css("ul.serp-list"), \
+            logger.error("Отстутсвует таблица с результатами поиска")
 
-    def the_first_link_directs_to_tensor_ru(self):
+    def click_to_first_link(self):
         """Получает первую ссылку и кликает по ней"""
         first_link = self.browser.find_by_css("[data-cid='0'] a.Link")
         first_link.click()
